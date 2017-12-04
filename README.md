@@ -65,5 +65,13 @@ $databases = array (
   ),
 );
 ```
+## Persistent Files
 
-
+In order to persist files, we leverage the Web App's /home directory that is mounted to Azure File Storage. The /home directory is accessible from the container. As such, we persist files by making directories for /files and /files/private and then setting symbolic links, as follows:
+```
+# Add directories for public and private files
+RUN mkdir -p  /home/site/wwwroot/sites/default/files \
+    && mkdir -p  /home/site/wwwroot/sites/default/files/private \
+    && ln -s /home/site/wwwroot/sites/default/files  /var/www/html/docroot/sites/default/files \
+    && ln -s /home/site/wwwroot/sites/default/files/private  /var/www/html/docroot/sites/default/files/private
+```
