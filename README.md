@@ -34,6 +34,36 @@ In the Dockerfile, there is a placeholder for your code: "[REPLACE WITH YOUR GIT
 
 ## Bring your own database
 
-MySQL (or other Drupal compatible database) is not included in the Dockerfile. You can add this to the Dockerfile, or utilize an external database resource such as [Azure Database for MySQL](https://docs.microsoft.com/en-us/azure/mysql/). 
+MySQL (or other Drupal compatible database) is not included in the Dockerfile. You can add this to the Dockerfile, or utilize an external database resource such as [Azure Database for MySQL](https://docs.microsoft.com/en-us/azure/mysql/).
+
+### Connection string tip
+
+The Azure Web App provides a setting into which you can enter a database connection string. This string is an environment variable within the Web App. At run-time, this environment variable can be interpretted in your settings.php file and parsed to populate your $databases array. However, in a container SSH session, the environment variable is not available. As a result Drush commands that require a database bootstrap level do not work.
+
+An alternative to the Web App Connection string environment variable is to reference in settings.php a secrets file mounted to the Web App /home directory. For example, assume that we have a secrets.txt file that contains the string:
+```
+db=[mydb]&dbuser=[mydbuser]@[myazurewebappname]&dbpw=[mydbpassword]&dbhost=[mydb]
+```
+In our settings.php file, we can use the following code to populate the $databases array:
+```
+$secret = file_get_contents('/home/secrets.txt');
+$secret = trim($secret);
+$dbconnstring = parse_str($secret);
+$databases = array (
+  'default' => 
+  array (
+    'default' => 
+    array (
+      'database' => $db,
+      'username' => $dbuser,
+      'password' => $dbpw,
+      'host' => $dbhost,
+      'port' => '3306',
+      'driver' => 'mysql',
+      'prefix' => false,
+    ),
+  ),
+);
+```
 
 
