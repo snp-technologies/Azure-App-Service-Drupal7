@@ -1,8 +1,12 @@
 # Azure-App-Service-Drupal7
 A Docker solution for Drupal 7 on Azure Web App for Containers
 
-[Bring your own code](#byo-code)
+* [Overview](#overview)
+* [Bring your own code](#byo-code)
+* [Bring your own database](#byo-database)
+* [Persistent Files](#files)
 
+<a id="overview"></a>
 ## Overview
 
 In September 2017 [Microsoft announced the general availability](https://azure.microsoft.com/en-us/blog/general-availability-of-app-service-on-linux-and-web-app-for-containers/) of Web App for Containers and Azure App Service on Linux.
@@ -35,6 +39,7 @@ We specifically had Drupal 7 in mind for this solution. You can tweak it to supp
 
 In the Dockerfile, there is a placeholder for your code: "[REPLACE WITH YOUR GIT REPOSITORY CLONE URL]". Alternatively, you can use the Docker COPY command to copy code from your local disk into the image.
 
+<a id="byo-database"></a>
 ## Bring your own database
 
 MySQL (or other Drupal compatible database) is not included in the Dockerfile. You can add this to the Dockerfile, or utilize an external database resource such as [Azure Database for MySQL](https://docs.microsoft.com/en-us/azure/mysql/).
@@ -68,6 +73,7 @@ $databases = array (
   ),
 );
 ```
+<a id="files"></a>
 ## Persistent Files
 
 In order to persist files, we leverage the Web App's /home directory that is mounted to Azure File Storage. The /home directory is accessible from the container. As such, we persist files by making directories for /files and /files/private and then setting symbolic links, as follows:
