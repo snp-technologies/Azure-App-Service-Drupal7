@@ -46,7 +46,7 @@ MySQL (or other Drupal compatible database) is not included in the Dockerfile. Y
 
 ### Connection string tip
 
-The Azure Web App provides a setting into which you can enter a database connection string. This string is an environment variable within the Web App. At run-time, this environment variable can be interpretted in your settings.php file and parsed to populate your $databases array. However, in a container SSH session, the environment variable is not available. As a result Drush commands that require a database bootstrap level do not work.
+The Azure Web App provides a setting into which you can enter a database connection string. This string is an environment variable within the Web App. At run-time, this environment variable can be interpreted in your settings.php file and parsed to populate your $databases array. However, in a container SSH session, the environment variable is not available. As a result Drush commands that require a database bootstrap level do not work.
 
 An alternative to the Web App Connection string environment variable is to reference in settings.php a secrets file mounted to the Web App /home directory. For example, assume that we have a secrets.txt file that contains the string:
 ```
