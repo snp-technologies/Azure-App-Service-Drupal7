@@ -1,6 +1,8 @@
 # Azure-App-Service-Drupal7
 A Docker solution for Drupal 7 on Azure Web App for Containers
 
+[Bring your own code](#byo-code)
+
 ## Overview
 
 In September 2017 [Microsoft announced the general availability](https://azure.microsoft.com/en-us/blog/general-availability-of-app-service-on-linux-and-web-app-for-containers/) of Web App for Containers and Azure App Service on Linux.
@@ -28,6 +30,7 @@ Our initial, significant changes are seen in the commit [5a1ad87](https://github
 
 We specifically had Drupal 7 in mind for this solution. You can tweak it to support Drupal 8 (or 6). It is our intent to release a separate repository for Drupal 8 soon. Follow https://github.com/snp-technologies/ for updates.
 
+<a id="byo-code"></a>
 ## Bring your own code
 
 In the Dockerfile, there is a placeholder for your code: "[REPLACE WITH YOUR GIT REPOSITORY CLONE URL]". Alternatively, you can use the Docker COPY command to copy code from your local disk into the image.
