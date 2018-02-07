@@ -1,17 +1,19 @@
 # Azure-App-Service-Drupal7
-A Docker solution for Drupal 7 on Azure Web App for Containers
+A Docker solution for Drupal 7 on Azure Web App for Containers.
 
 * [Overview](#overview)
 * [Bring your own code](#byo-code)
 * [Bring your own database](#byo-database)
 * [Persistent Files](#files)
+* [References](#references)
+
 
 <a id="overview"></a>
 ## Overview
 
-In September 2017 [Microsoft announced the general availability](https://azure.microsoft.com/en-us/blog/general-availability-of-app-service-on-linux-and-web-app-for-containers/) of Web App for Containers and Azure App Service on Linux.
+In September 2017 [Microsoft announced the general availability](https://azure.microsoft.com/en-us/blog/general-availability-of-app-service-on-linux-and-web-app-for-containers/) of Azure Web App for Containers and Azure App Service on Linux.
 
-While it is possible to run Drupal websites with Azure App Service on Linux, its built-in image for PHP is not an ideal environment for Drupal in production. At SNP we turned our attention to the Web App for Containers resource as a way to provide custom Docker images for our customers. Our priorities were to:
+While it is possible to host Drupal websites with Azure App Service on Linux, its built-in image for PHP is not an ideal environment for Drupal in production. At SNP we turned our attention to the Web App for Containers resource as a way to provide custom Docker images for our customers. Our priorities were to:
 
 * Include Drupal code in the image, not referenced from the Web App /home mount.
 * Set custom permissions on the document root.
@@ -84,3 +86,14 @@ RUN mkdir -p  /home/site/wwwroot/sites/default/files \
     && ln -s /home/site/wwwroot/sites/default/files  /var/www/html/docroot/sites/default/files \
     && ln -s /home/site/wwwroot/sites/default/files/private  /var/www/html/docroot/sites/default/files/private
 ```
+<a id="references"></a>
+## References
+
+* [Docker Hub Official Repository for php](https://hub.docker.com/r/_/php/)
+* [Web App for Containers home page](https://azure.microsoft.com/en-us/services/app-service/containers/)
+* [Use a custom Docker image for Web App for Containers](https://docs.microsoft.com/en-us/azure/app-service/containers/tutorial-custom-docker-image)
+* [Azure App Service on Linux FAQ](https://docs.microsoft.com/en-us/azure/app-service/containers/app-service-linux-faq)
+
+Git repository sponsored by [SNP Technologies](https://www.snp.com)
+
+If you are interested in a WordPress container solution, please visit https://github.com/snp-technologies/Azure-App-Service-WordPress.
