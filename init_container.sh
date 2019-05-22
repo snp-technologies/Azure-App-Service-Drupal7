@@ -15,8 +15,6 @@ EOL
 cat /etc/motd
 
 service ssh start
-service memcached start
-service memcached enable
 sed -i "s/{PORT}/$PORT/g" /etc/apache2/apache2.conf
 mkdir /var/lock/apache2
 mkdir /var/run/apache2
