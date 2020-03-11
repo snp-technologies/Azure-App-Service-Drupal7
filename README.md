@@ -31,6 +31,10 @@ The origin of this repository in 2017 was  a Docker solution for an [Azure App S
 
 Our initial, significant changes are seen in the commit [5a1ad87](https://github.com/snp-technologies/Azure-App-Service-Drupal7/commit/5a1ad87ed08831f8d95460deb739d066b4fe46c3).
 
+In March 2020, we updated the repo to support PHP 7.3. Inspiration was taken from:
+
+- [Official Docker container solution for Drupal](https://github.com/docker-library/drupal/blob/master/7/apache/Dockerfile)
+
 In May 2019, we updated the repo to support PHP 7.1. Inspiration was taken from:
 
 - [Official Docker container solution for Drupal](https://github.com/docker-library/drupal/blob/9c086fdeb757ae146d71384bdeb5103dd54b6d28/7/apache/Dockerfile)
@@ -74,22 +78,23 @@ In our settings.php file, we can use the following code to populate the $databas
 ```
 $secret = file_get_contents('/home/secrets.txt');
 $secret = trim($secret);
-$dbconnstring = parse_str($secret);
+$dbconnstring = parse_str($secret,$output);
 $databases = array (
-  'default' => 
+  'default' =>
   array (
-    'default' => 
+    'default' =>
     array (
-      'database' => $db,
-      'username' => $dbuser,
-      'password' => $dbpw,
-      'host' => $dbhost,
+      'database' => $output['db'],
+      'username' => $output['dbuser'],
+      'password' => $output['dbpw'],
+      'host' => $output['dbhost'],
       'port' => '3306',
       'driver' => 'mysql',
       'prefix' => false,
     ),
   ),
 );
+
 ```
 <a id="files"></a>
 ## Persistent Files
