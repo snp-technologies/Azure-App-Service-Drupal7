@@ -1,4 +1,4 @@
-FROM php:7.1-apache
+FROM php:7.3-apache-stretch
 MAINTAINER snp-technologies
 
 ARG GIT_TOKEN
@@ -16,30 +16,40 @@ RUN chmod 755 /bin/init_container.sh \
     && echo "cd /home" >> /etc/bash.bashrc
 
 # Install the PHP extensions we need
-# From https://github.com/docker-library/drupal/blob/9c086fdeb757ae146d71384bdeb5103dd54b6d28/7/apache/Dockerfile
+# https://github.com/docker-library/drupal/blob/master/7/apache/Dockerfile
 # With a few edits
 
-RUN 	apt-get update; \
+# 
+RUN apt-get update; \
 	apt-get install -y --no-install-recommends \
+		libfreetype6-dev \
 		libjpeg-dev \
 		libpng-dev \
 		libpq-dev \
-                openssh-server \
-                curl \
-                git \
-                mysql-client \
-                nano \
-                sudo \
-                tcptraceroute \
-                vim \
-                wget \
-                libssl-dev \
+		libzip-dev; 
+# Additional libraries not in base recommendations
+RUN apt-get update; \
+	    apt-get install -y --no-install-recommends \
+        openssh-server \
+        curl \
+        git \
+        mysql-client \
+        nano \
+        sudo \
+        tcptraceroute \
+        vim \
+        wget \
+        libssl-dev \
+	; 
+
+RUN	docker-php-ext-configure gd \
+		--with-freetype-dir=/usr \
+		--with-jpeg-dir=/usr \
+		--with-png-dir=/usr \
 	; \
 	\
-	docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr; \
 	docker-php-ext-install -j "$(nproc)" \
 		gd \
-                mbstring \
 		opcache \
 		pdo_mysql \
 		zip \
@@ -53,7 +63,6 @@ RUN { \
 		echo 'opcache.max_accelerated_files=4000'; \
 		echo 'opcache.revalidate_freq=60'; \
 		echo 'opcache.fast_shutdown=1'; \
-		echo 'opcache.enable_cli=1'; \
        } > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
 ### Change apache logs directory ###
@@ -82,8 +91,6 @@ RUN { \
   echo 'session.auto_start = 0'; \
   echo 'expose_php = off'; \
   echo 'allow_url_fopen = off'; \
-  echo 'magic_quotes_gpc = off'; \  
-  echo 'register_globals = off'; \  
   echo 'display_errors=Off'; \
   echo 'upload_max_filesize = 8M'; \
   echo 'post_max_size = 8M'; \
